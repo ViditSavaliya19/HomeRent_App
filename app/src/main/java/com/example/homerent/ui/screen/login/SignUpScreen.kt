@@ -7,13 +7,13 @@ import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.KeyboardOptions
-import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
@@ -38,11 +38,9 @@ import com.example.homerent.ui.componets.CButton
 import com.example.homerent.ui.theme.Primary
 
 @Preview
-@OptIn(ExperimentalMaterial3Api::class)
 @SuppressLint("UnusedMaterial3ScaffoldPaddingParameter")
 @Composable
-fun LoginScreen(navController: NavHostController) {
-
+fun SignUpScreen(navController: NavHostController) {
     var txtEmail = remember {
         mutableStateOf("")
     }
@@ -57,18 +55,21 @@ fun LoginScreen(navController: NavHostController) {
             contentScale = ContentScale.Crop,
             modifier = Modifier.fillMaxSize()
         )
-        Column {
-            Spacer(modifier = Modifier.weight(1f))
+        Box(
+            modifier = Modifier.fillMaxHeight(), contentAlignment = Alignment.Center
+        ) {
             Box(
                 modifier = Modifier
+                    .padding(horizontal = 10.dp)
                     .clip(
                         RoundedCornerShape(
-                            topStart = 20.dp, topEnd = 20.dp
+                           20.dp
                         )
                     )
                     .background(color = Color.White)
-                    .weight(1f)
-                    .fillMaxWidth()
+                    .height(350.dp)
+                    .fillMaxWidth(),
+                contentAlignment = Alignment.Center
             ) {
 
                 Column(
@@ -80,7 +81,7 @@ fun LoginScreen(navController: NavHostController) {
 
                 ) {
 
-                    Text(text = "Login", style = TextStyle(fontSize = 25.sp, color = Primary))
+                    Text(text = "SingUp", style = TextStyle(fontSize = 25.sp, color = Primary))
                     Spacer(modifier = Modifier.height(10.dp))
                     OutlinedTextField(
                         value = txtEmail.value,
@@ -89,7 +90,8 @@ fun LoginScreen(navController: NavHostController) {
                         },
                         label = { Text("Email") },
                         keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Email),
-                        modifier = Modifier.fillMaxWidth(),
+                        modifier = Modifier.fillMaxWidth()
+
                     )
                     Spacer(modifier = Modifier.height(10.dp))
 
@@ -105,15 +107,14 @@ fun LoginScreen(navController: NavHostController) {
                     )
                     Spacer(modifier = Modifier.height(10.dp))
 
-                    CButton(label = "Login") {
-                        navController.navigate("profile")
+                    CButton(label = "SingUp") {
+
                     }
                     Spacer(modifier = Modifier.height(20.dp))
 
-                    TextButton(onClick = { navController.navigate("signup")}) {
-                        Text("Create new account? SignUp")
+                    TextButton(onClick = { navController.popBackStack()}) {
+                        Text("Already account! Sign In")
                     }
-
 
                 }
 
