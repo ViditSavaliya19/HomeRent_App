@@ -14,11 +14,15 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.LazyRow
+import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.LocationOn
 import androidx.compose.material.icons.filled.Search
 import androidx.compose.material.icons.outlined.Search
+import androidx.compose.material3.Divider
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
@@ -56,18 +60,15 @@ import com.example.homerent.ui.theme.Secondary
 fun HomeScreen(navController: NavHostController) {
 
     Scaffold {
-        Column {
-            CTabBar()
-            Column(Modifier.padding(10.dp)) {
+        LazyColumn() {
+            item {
+                CTabBar()
+            }
+            item {
                 Spacer(modifier = Modifier.height(10.dp))
-                OutlinedTextField(value = "",
-                    onValueChange = {},
-                    modifier = Modifier.fillMaxWidth(),
-                    trailingIcon = {
-                        Icon(Icons.Filled.Search, contentDescription = null)
-                    })
-                Spacer(modifier = Modifier.height(10.dp))
-                LazyRow() {
+            }
+            item {
+                LazyRow(Modifier.padding(10.dp)) {
                     items(count = 10) {
                         Column(
                             Modifier.padding(horizontal = 10.dp),
@@ -88,45 +89,77 @@ fun HomeScreen(navController: NavHostController) {
                         }
                     }
                 }
+            }
+            item {
                 Spacer(modifier = Modifier.height(10.dp))
-                Text(text = "Near Me")
+            }
+            item {
+                Text(text = "Near Me", modifier = Modifier.padding(horizontal = 10.dp))
+            }
+            item {
                 Spacer(modifier = Modifier.height(10.dp))
-                LazyColumn {
-                    items(count = 10) {
-                        Box(
+            }
+
+            items(count = 10) {
+                Box(
+                    modifier = Modifier
+                        .padding(10.dp)
+                        .fillMaxWidth()
+                        .height(150.dp)
+                        .clip(shape = RoundedCornerShape(10.dp))
+                        .background(color = Secondary.copy(alpha = 0.2f))
+                ) {
+                    Row(
+                        modifier = Modifier
+                            .padding(10.dp)
+                    ) {
+                        Image(
+                            painter = painterResource(R.drawable.home),
+                            contentDescription = "",
+                            contentScale = ContentScale.Crop,
                             modifier = Modifier
-                                .padding(10.dp)
-                                .fillMaxWidth()
-                                .height(150.dp)
-                                .clip(shape = RoundedCornerShape(10.dp))
-                                .background(color = Secondary.copy(alpha = 0.2f))
-                        ) {
-                            Row(modifier = Modifier
-                                .padding(10.dp)) {
-                                Image(
-                                    painter = painterResource(R.drawable.home),
-                                    contentDescription = "",
-                                    contentScale = ContentScale.Crop,
-                                    modifier = Modifier
-                                        .fillMaxHeight()
-                                        .width(140.dp).clip(RoundedCornerShape(10.dp)),
+                                .fillMaxHeight()
+                                .width(140.dp)
+                                .clip(RoundedCornerShape(10.dp)),
+                        )
+                        Spacer(modifier = Modifier.width(10.dp))
+                        Column {
+                            Text(
+                                text = "Parley Point, Surat",
+                                style = TextStyle(fontWeight = FontWeight.Bold)
+                            )
+                            Spacer(modifier = Modifier.height(5.dp))
+                            Text(text = "Monthly Rent", style = TextStyle(fontSize = 12.sp))
+                            Row(
+                                verticalAlignment = Alignment.CenterVertically,
+                            ) {
+                                Text(
+                                    text = "$1000",
+                                    style = TextStyle(
+                                        fontSize = 20.sp,
+                                        fontWeight = FontWeight.Bold
+                                    )
                                 )
-                                Spacer(modifier = Modifier.width(10.dp))
-                                Column {
-                                    Text(text = "Parley Point, Surat", style = TextStyle(fontWeight = FontWeight.Bold))
-                                    Spacer(modifier = Modifier.height(5.dp))
-                                    Text(text = "Girls & Boys PG")
-                                    Spacer(modifier = Modifier.height(5.dp))
-                                    Text(text = "Piplod, Surat")
-                                    Spacer(modifier = Modifier.height(10.dp))
-                                    Text(text = "$1000", style = TextStyle(fontSize =20.sp))
-                                }
+                                Text(
+                                    text = " / Per Bed",
+                                )
+                            }
+                            Spacer(modifier = Modifier.height(5.dp))
+                            Divider()
+                            Spacer(modifier = Modifier.weight(1f))
+                            Text(text = "Girls & Boys PG", style = TextStyle(fontSize = 14.sp))
+                            Spacer(modifier = Modifier.height(5.dp))
+                            Row(verticalAlignment = Alignment.CenterVertically) {
+                                Icon(Icons.Filled.LocationOn, contentDescription = null, modifier = Modifier.height(15.dp))
+                                Text(text = "Piplod, Surat",style = TextStyle(fontSize = 14.sp))
                             }
                         }
-
                     }
                 }
+
             }
+
+
         }
     }
 
