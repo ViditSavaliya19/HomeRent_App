@@ -8,9 +8,10 @@ import com.example.homerent.ui.screen.home.HomeScreen
 import com.example.homerent.ui.screen.login.LoginScreen
 import com.example.homerent.ui.screen.login.SignUpScreen
 import com.example.homerent.ui.screen.profile.ProfileScreen
+import com.example.homerent.viewmodel.PgViewModel
 
 @Composable
-fun NavScreen(navController: NavHostController) {
+fun NavScreen(navController: NavHostController, viewModel: PgViewModel) {
     NavHost(navController = navController, startDestination = "home")
     {
         composable("splash")
@@ -28,7 +29,7 @@ fun NavScreen(navController: NavHostController) {
         }
         composable("home")
         {
-            HomeScreen(navController)
+            HomeScreen(navController,viewModel)
         }
         composable("profile")
         {
