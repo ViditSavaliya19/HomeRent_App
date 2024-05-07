@@ -8,6 +8,7 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxHeight
+import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
@@ -18,6 +19,7 @@ import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.LocationOn
+import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.Divider
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
@@ -38,6 +40,7 @@ import androidx.compose.ui.unit.sp
 import androidx.navigation.NavHostController
 import com.example.homerent.R
 import com.example.homerent.ui.componets.CTabBar
+import com.example.homerent.ui.componets.NetworkIndicator
 import com.example.homerent.ui.theme.Secondary
 import com.example.homerent.viewmodel.PgViewModel
 
@@ -48,9 +51,10 @@ import com.example.homerent.viewmodel.PgViewModel
 fun HomeScreen(navController: NavHostController, viewModel: PgViewModel) {
 
     var list = viewModel.pgList.observeAsState()
+    var cityList = viewModel.cityList.observeAsState()
 
     Scaffold {
-        LazyColumn() {
+        LazyColumn {
             item {
                 CTabBar()
             }
@@ -59,25 +63,27 @@ fun HomeScreen(navController: NavHostController, viewModel: PgViewModel) {
             }
             item {
                 LazyRow(Modifier.padding(10.dp)) {
-                    items(count = 10) {
-                        Column(
-                            Modifier.padding(horizontal = 10.dp),
-                            horizontalAlignment = Alignment.CenterHorizontally
-                        ) {
-                            Box(
-                                modifier = Modifier
-                                    .height(60.dp)
-                                    .width(60.dp)
-                                    .clip(CircleShape)
+                    cityList.value?.let { it1 ->
+                        items(count = it1.size) {
+                            Column(
+                                Modifier.padding(horizontal = 10.dp),
+                                horizontalAlignment = Alignment.CenterHorizontally
                             ) {
-                                Image(
-                                    painter = painterResource(id = R.drawable.ic_launcher_background),
-                                    contentDescription = ""
-                                )
+                                Box(
+                                    modifier = Modifier
+                                        .height(60.dp)
+                                        .width(60.dp)
+                                        .clip(CircleShape)
+                                ) {
+                                    Image(
+                                        painter = painterResource(id = R.drawable.city),
+                                        contentDescription = ""
+                                    )
+                                }
+                                Text(text = "${it1[it].city}")
                             }
-                            Text(text = "Mumbai")
                         }
-                    }
+                    }?:item { NetworkIndicator() }
                 }
             }
             item {
@@ -138,17 +144,29 @@ fun HomeScreen(navController: NavHostController, viewModel: PgViewModel) {
                                 Spacer(modifier = Modifier.height(5.dp))
                                 Divider()
                                 Spacer(modifier = Modifier.weight(1f))
-                                Text(text = "${it1[it].category}", style = TextStyle(fontSize = 14.sp))
+                                Text(
+                                    text = "${it1[it].category}",
+                                    style = TextStyle(fontSize = 14.sp)
+                                )
                                 Spacer(modifier = Modifier.height(5.dp))
                                 Row(verticalAlignment = Alignment.CenterVertically) {
-                                    Icon(Icons.Filled.LocationOn, contentDescription = null, modifier = Modifier.height(15.dp))
-                                    Text(text = "${it1[it].area},${it1[it].city},${it1[it].postalcode}",style = TextStyle(fontSize = 14.sp))
+                                    Icon(
+                                        Icons.Filled.LocationOn,
+                                        contentDescription = null,
+                                        modifier = Modifier.height(15.dp)
+                                    )
+                                    Text(
+                                        text = "${it1[it].area},${it1[it].city},${it1[it].postalcode}",
+                                        style = TextStyle(fontSize = 14.sp)
+                                    )
                                 }
                             }
                         }
                     }
 
                 }
+            } ?: item {
+                NetworkIndicator()
             }
 
 

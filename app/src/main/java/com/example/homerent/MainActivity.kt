@@ -11,16 +11,19 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.compose.rememberNavController
 import com.example.homerent.ui.screen.nav.NavScreen
 import com.example.homerent.ui.theme.HomeRentTheme
+import com.example.homerent.viewmodel.AuthViewModel
+import com.example.homerent.viewmodel.AuthViewModelFactory
 import com.example.homerent.viewmodel.PGViewModelFactory
 import com.example.homerent.viewmodel.PgViewModel
 
 class MainActivity : ComponentActivity() {
    private lateinit var viewModel: PgViewModel
+   private lateinit var authViewModel: AuthViewModel
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
         viewModel = ViewModelProvider(this, PGViewModelFactory(this))[PgViewModel::class.java]
-
+        authViewModel = ViewModelProvider(this, AuthViewModelFactory(this))[AuthViewModel::class.java]
         setContent {
             val navController = rememberNavController()
             HomeRentTheme {
@@ -29,7 +32,7 @@ class MainActivity : ComponentActivity() {
                     modifier = Modifier.fillMaxSize(),
                     color = MaterialTheme.colorScheme.background
                 ) {
-                    NavScreen(navController,viewModel)
+                    NavScreen(navController,viewModel,authViewModel)
                 }
             }
         }

@@ -1,6 +1,7 @@
 package com.example.homerent.ui.screen.login
 
 import android.annotation.SuppressLint
+import android.widget.Toast
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
@@ -21,6 +22,7 @@ import androidx.compose.material3.TextButton
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
@@ -36,12 +38,15 @@ import androidx.navigation.NavHostController
 import com.example.homerent.R
 import com.example.homerent.ui.componets.CButton
 import com.example.homerent.ui.theme.Primary
+import com.example.homerent.viewmodel.AuthViewModel
+import kotlinx.coroutines.async
+import kotlinx.coroutines.launch
 
 @Preview
 @OptIn(ExperimentalMaterial3Api::class)
 @SuppressLint("UnusedMaterial3ScaffoldPaddingParameter")
 @Composable
-fun LoginScreen(navController: NavHostController) {
+fun LoginScreen(navController: NavHostController, authViewModel: AuthViewModel) {
 
     var txtEmail = remember {
         mutableStateOf("")
@@ -49,6 +54,8 @@ fun LoginScreen(navController: NavHostController) {
     var txtPassword = remember {
         mutableStateOf("")
     }
+
+    val coroutineScope = rememberCoroutineScope()
 
     Scaffold {
         Image(
@@ -94,9 +101,9 @@ fun LoginScreen(navController: NavHostController) {
                     Spacer(modifier = Modifier.height(10.dp))
 
                     OutlinedTextField(
-                        value = txtEmail.value,
+                        value = txtPassword.value,
                         onValueChange = {
-                            txtEmail.value = it
+                            txtPassword.value = it
                         },
                         label = { Text("Password") },
                         keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Password),
@@ -106,11 +113,29 @@ fun LoginScreen(navController: NavHostController) {
                     Spacer(modifier = Modifier.height(10.dp))
 
                     CButton(label = "Login") {
-                        navController.navigate("profile")
+
+                        coroutineScope.launch {
+                            var isLogin: Boolean = false
+                            async {
+                                isLogin = authViewModel.login(txtEmail.value, txtPassword.value)
+                            }.await()
+                            authViewModel.currentUser()
+                            if (isLogin) {
+                                navController.navigate("profile")
+
+                            } else {
+                                Toast.makeText(
+                                    navController.context,
+                                    "Failed To Login",
+                                    Toast.LENGTH_SHORT
+                                ).show()
+                            }
+
+                        }
                     }
                     Spacer(modifier = Modifier.height(20.dp))
 
-                    TextButton(onClick = { navController.navigate("signup")}) {
+                    TextButton(onClick = { navController.navigate("signup") }) {
                         Text("Create new account? SignUp")
                     }
 

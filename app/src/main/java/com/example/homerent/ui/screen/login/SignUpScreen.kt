@@ -1,6 +1,7 @@
 package com.example.homerent.ui.screen.login
 
 import android.annotation.SuppressLint
+import android.widget.Toast
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
@@ -21,6 +22,7 @@ import androidx.compose.material3.TextButton
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
@@ -36,17 +38,22 @@ import androidx.navigation.NavHostController
 import com.example.homerent.R
 import com.example.homerent.ui.componets.CButton
 import com.example.homerent.ui.theme.Primary
+import com.example.homerent.viewmodel.AuthViewModel
+import kotlinx.coroutines.async
+import kotlinx.coroutines.launch
 
 @Preview
 @SuppressLint("UnusedMaterial3ScaffoldPaddingParameter")
 @Composable
-fun SignUpScreen(navController: NavHostController) {
+fun SignUpScreen(navController: NavHostController, authViewModel: AuthViewModel) {
     var txtEmail = remember {
         mutableStateOf("")
     }
     var txtPassword = remember {
         mutableStateOf("")
     }
+
+    val coroutineScope = rememberCoroutineScope()
 
     Scaffold {
         Image(
@@ -63,7 +70,7 @@ fun SignUpScreen(navController: NavHostController) {
                     .padding(horizontal = 10.dp)
                     .clip(
                         RoundedCornerShape(
-                           20.dp
+                            20.dp
                         )
                     )
                     .background(color = Color.White)
@@ -96,9 +103,9 @@ fun SignUpScreen(navController: NavHostController) {
                     Spacer(modifier = Modifier.height(10.dp))
 
                     OutlinedTextField(
-                        value = txtEmail.value,
+                        value = txtPassword.value,
                         onValueChange = {
-                            txtEmail.value = it
+                            txtPassword.value = it
                         },
                         label = { Text("Password") },
                         keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Password),
@@ -108,7 +115,25 @@ fun SignUpScreen(navController: NavHostController) {
                     Spacer(modifier = Modifier.height(10.dp))
 
                     CButton(label = "SingUp") {
+                        coroutineScope.launch {
+                            var isRegister: Boolean = false
+                            async {
+                                isRegister = authViewModel.registration(txtEmail.value, txtPassword.value)
+                            }.await()
 
+                            authViewModel.currentUser()
+
+                            if (isRegister) {
+                                navController.popBackStack()
+                            } else {
+                                Toast.makeText(
+                                    navController.context,
+                                    "Failed To SignUp",
+                                    Toast.LENGTH_SHORT
+                                ).show()
+                            }
+
+                        }
                     }
                     Spacer(modifier = Modifier.height(20.dp))
 

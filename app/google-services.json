@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "717168972641",
+    "project_id": "pgbooking-7b282",
+    "storage_bucket": "pgbooking-7b282.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:717168972641:android:feada70d4113109ce3ab20",
+        "android_client_info": {
+          "package_name": "com.example.homerent"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDb5W9pjT_IE1By9mlKpQxR0bjKnUn8uZk"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
