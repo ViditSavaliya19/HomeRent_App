@@ -2,25 +2,34 @@ package com.example.homerent.viewmodel
 
 import android.content.Context
 import android.util.Log
+import android.widget.Toast
+import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.homerent.domain.firebase.FireAuth
+import com.example.homerent.model.UserModel
+import com.example.homerent.repository.PGRepository
 import com.google.firebase.auth.FirebaseUser
 import kotlinx.coroutines.async
 import kotlinx.coroutines.launch
 
-class AuthViewModel(mainActivity: Context) : ViewModel() {
+class AuthViewModel(val context: Context) : ViewModel() {
 
     var user: FirebaseUser? = null
+    private var _userDataList = MutableLiveData<List<UserModel>>()
+    val userDataList: MutableLiveData<List<UserModel>>
+        get() = _userDataList
 
     init {
-        currentUser()
+        viewModelScope.launch {
+            currentUser()
+        }
     }
 
 
-    fun currentUser() {
+    suspend fun currentUser() {
         user = FireAuth.fireAuth.firebaseAuth.currentUser
-
+        getUserInfo()
     }
 
 
@@ -35,7 +44,19 @@ class AuthViewModel(mainActivity: Context) : ViewModel() {
 
     fun logout() {
         FireAuth.fireAuth.firebaseAuth.signOut()
-        currentUser()
+        viewModelScope.launch {
+            currentUser()
+        }
+    }
+
+    private suspend fun getUserInfo() {
+        try {
+            _userDataList.value = PGRepository.repo.getUserInfoAPICall(user!!.uid)
+        } catch (e: Exception) {
+            Log.e("TAG", "UserDetails: ${e.message}")
+            Toast.makeText(context, "${e.message}", Toast.LENGTH_SHORT).show()
+        }
+
     }
 
 

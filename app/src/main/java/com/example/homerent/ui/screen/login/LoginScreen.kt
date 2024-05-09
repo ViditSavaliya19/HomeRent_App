@@ -119,7 +119,9 @@ fun LoginScreen(navController: NavHostController, authViewModel: AuthViewModel) 
                             async {
                                 isLogin = authViewModel.login(txtEmail.value, txtPassword.value)
                             }.await()
-                            authViewModel.currentUser()
+                            async {
+                                authViewModel.currentUser()
+                            }.await()
                             if (isLogin) {
                                 navController.navigate("profile")
 

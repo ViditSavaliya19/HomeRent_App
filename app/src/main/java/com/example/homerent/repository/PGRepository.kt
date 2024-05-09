@@ -5,6 +5,7 @@ import com.example.homerent.domain.ApiClient.Companion.client
 import com.example.homerent.domain.ApiInterface
 import com.example.homerent.model.CityModel
 import com.example.homerent.model.PGModel
+import com.example.homerent.model.UserModel
 import retrofit2.awaitResponse
 
 class PGRepository {
@@ -47,6 +48,17 @@ class PGRepository {
 
         throw Exception("Error : ${response.code()}")
     }
+
+    suspend fun getUserInfoAPICall(uid:String): List<UserModel> {
+        val response = apiInterface.getUserDetails(uid).awaitResponse()
+        if (response.isSuccessful && response.body() != null) {
+            Log.e("TAG", "getUserInfo: ${response.body()}")
+            return response.body()!!
+        }
+
+        throw Exception("Error : ${response.code()}")
+    }
+
 
 
 }

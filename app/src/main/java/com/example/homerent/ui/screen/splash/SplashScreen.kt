@@ -1,7 +1,6 @@
 package com.example.homerent.ui.screen.splash
 
 import android.annotation.SuppressLint
-import android.window.SplashScreen
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxSize
@@ -14,20 +13,28 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
+import androidx.navigation.NavHostController
 import com.example.homerent.R
+import com.example.homerent.viewmodel.AuthViewModel
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 
-@SuppressLint("UnusedMaterial3ScaffoldPaddingParameter")
+@SuppressLint("UnusedMaterial3ScaffoldPaddingParameter", "CoroutineCreationDuringComposition")
 @Composable
-fun SplashScreen() {
+fun SplashScreen(navController: NavHostController, authViewModel: AuthViewModel) {
 
-    var coroutineScope = rememberCoroutineScope()
+    rememberCoroutineScope().launch {
+        delay(3000)
+        if(authViewModel.user!=null)
+        {
+            navController.navigate("home")
+        }
+        else
+        {
+            navController.navigate("login")
+        }
 
-//    coroutineScope.launch {
-//        delay(2000)
-//
-//    }
+    }
 
     Scaffold {
         Box(modifier = Modifier.fillMaxSize(), contentAlignment = Alignment.Center) {

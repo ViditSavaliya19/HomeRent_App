@@ -18,11 +18,11 @@ fun NavScreen(
     viewModel: PgViewModel,
     authViewModel: AuthViewModel
 ) {
-    NavHost(navController = navController, startDestination = "login")
+    NavHost(navController = navController, startDestination = "splash")
     {
         composable("splash")
         {
-            SplashScreen()
+            SplashScreen(navController,authViewModel)
         }
 
         composable("login")
@@ -39,7 +39,7 @@ fun NavScreen(
         }
         composable("profile")
         {
-            ProfileScreen(navController,viewModel)
+            ProfileScreen(navController,viewModel,authViewModel)
         }
     }
 }

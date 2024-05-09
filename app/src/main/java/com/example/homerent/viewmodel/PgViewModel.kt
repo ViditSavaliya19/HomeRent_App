@@ -8,6 +8,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.homerent.model.CityModel
 import com.example.homerent.model.PGModel
+import com.example.homerent.model.UserModel
 import com.example.homerent.repository.PGRepository.Companion.repo
 import kotlinx.coroutines.launch
 
@@ -19,6 +20,7 @@ class PgViewModel(val context: Context) : ViewModel() {
 
     val cityList: MutableLiveData<List<CityModel>>
         get() = _cityList
+
 
     init {
         viewModelScope.launch {
@@ -60,5 +62,7 @@ class PgViewModel(val context: Context) : ViewModel() {
         }
         return  false
     }
+
+
 
 }

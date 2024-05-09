@@ -1,6 +1,7 @@
 package com.example.homerent.ui.componets
 
 import androidx.compose.foundation.Image
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -27,7 +28,7 @@ import com.example.homerent.ui.theme.Primary
 
 
 @Composable
-fun CTabBar() {
+fun CTabBar(leadClick:() -> Unit) {
 
     Column(horizontalAlignment = Alignment.CenterHorizontally) {
         Box(
@@ -47,7 +48,7 @@ fun CTabBar() {
                     Modifier
                         .height(45.dp)
                         .width(45.dp)
-                        .clip(CircleShape)
+                        .clip(CircleShape).clickable { leadClick() }
                 )
                 Spacer(modifier = Modifier.width(10.dp))
                 Text(text = "PG.com")

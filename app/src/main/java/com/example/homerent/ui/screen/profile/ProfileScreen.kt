@@ -17,6 +17,7 @@ import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextField
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.saveable.rememberSaveable
@@ -28,38 +29,60 @@ import androidx.compose.ui.unit.dp
 import androidx.navigation.NavHostController
 import com.example.homerent.R
 import com.example.homerent.ui.componets.CButton
+import com.example.homerent.viewmodel.AuthViewModel
 import com.example.homerent.viewmodel.PgViewModel
 import kotlinx.coroutines.async
 import kotlinx.coroutines.launch
 
 @Composable
-fun ProfileScreen(navController: NavHostController, viewModel: PgViewModel) {
+fun ProfileScreen(
+    navController: NavHostController,
+    viewModel: PgViewModel,
+    authViewModel: AuthViewModel
+) {
+    var userData = authViewModel.userDataList.observeAsState()
 
     var txtName = rememberSaveable {
-        mutableStateOf("")
+        mutableStateOf(userData.value?.let {
+            it[0].name
+        } ?: "")
     }
 
     var txtMobile = rememberSaveable {
-        mutableStateOf("")
+        mutableStateOf(userData.value?.let {
+            it[0].mobile
+        } ?: "")
     }
 
     var txtPostalCode = rememberSaveable {
-        mutableStateOf("")
+        mutableStateOf(userData.value?.let {
+            it[0].postalCode
+        } ?: "")
     }
     var txtCity = rememberSaveable {
-        mutableStateOf("")
+        mutableStateOf(userData.value?.let {
+            it[0].city
+        } ?: "")
     }
     var txtState = rememberSaveable {
-        mutableStateOf("")
+        mutableStateOf(userData.value?.let {
+            it[0].state
+        } ?: "")
     }
     var txtArea = rememberSaveable {
-        mutableStateOf("")
+        mutableStateOf(userData.value?.let {
+            it[0].area
+        } ?: "")
     }
     var txtProfession = rememberSaveable {
-        mutableStateOf("")
+        mutableStateOf(userData.value?.let {
+            it[0].profession
+        } ?: "")
     }
     var txtEmail = rememberSaveable {
-        mutableStateOf("")
+        mutableStateOf(userData.value?.let {
+            it[0].email
+        } ?: "")
     }
 
     var coroutineScope = rememberCoroutineScope()
@@ -176,29 +199,36 @@ fun ProfileScreen(navController: NavHostController, viewModel: PgViewModel) {
 
 
             CButton(label = "Edit Profile") {
-                var data = HashMap<String,String>()
+                var data = HashMap<String, String>()
 
-                data.set("name",txtName.value)
-                data.set("email",txtEmail.value)
-                data.set("mobile",txtMobile.value)
-                data.set("state",txtState.value)
-                data.set("city",txtCity.value)
-                data.set("area",txtArea.value)
-                data.set("postalcode",txtPostalCode.value)
-                data.set("profession",txtProfession.value)
+                data.set("name", txtName.value)
+                data.set("email", txtEmail.value)
+                data.set("mobile", txtMobile.value)
+                data.set("state", txtState.value)
+                data.set("city", txtCity.value)
+                data.set("area", txtArea.value)
+                data.set("postalcode", txtPostalCode.value)
+                data.set("profession", txtProfession.value)
+                data.set("fireid", authViewModel.user!!.uid)
+
+                userData.value?.let {
+                    data.set("id", it[0].uid!!)
+                }
 
                 coroutineScope.launch {
-                    var res :Boolean = false
+                    var res: Boolean = false
                     async {
-                      res =  viewModel.postUserDetails(data)
+                        res = viewModel.postUserDetails(data)
                     }.await()
 
-                    if(res)
-                    {
+                    if (res) {
                         navController.navigate("home")
-                    }
-                    else{
-                        Toast.makeText(navController.context,"Something went wrong",Toast.LENGTH_SHORT).show()
+                    } else {
+                        Toast.makeText(
+                            navController.context,
+                            "Something went wrong",
+                            Toast.LENGTH_SHORT
+                        ).show()
                     }
 
                 }

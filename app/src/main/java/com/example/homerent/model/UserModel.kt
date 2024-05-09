@@ -4,12 +4,6 @@ import com.google.gson.annotations.SerializedName
 
 data class UserModel(
 
-	@field:SerializedName("UserModel")
-	val userModel: List<UserModelItem?>? = null
-)
-
-data class UserModelItem(
-
 	@field:SerializedName("area")
 	val area: String? = null,
 
