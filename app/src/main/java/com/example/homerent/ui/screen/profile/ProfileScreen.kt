@@ -223,6 +223,11 @@ fun ProfileScreen(
 
                     if (res) {
                         navController.navigate("home")
+                        {
+                            popUpTo("profile") {
+                                inclusive = true
+                            }
+                        }
                     } else {
                         Toast.makeText(
                             navController.context,

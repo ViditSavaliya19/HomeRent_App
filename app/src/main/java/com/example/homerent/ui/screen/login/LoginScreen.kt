@@ -124,6 +124,12 @@ fun LoginScreen(navController: NavHostController, authViewModel: AuthViewModel) 
                             }.await()
                             if (isLogin) {
                                 navController.navigate("profile")
+                                {
+                                    popUpTo("login") {
+                                        inclusive = true
+                                    }
+                                }
+
 
                             } else {
                                 Toast.makeText(

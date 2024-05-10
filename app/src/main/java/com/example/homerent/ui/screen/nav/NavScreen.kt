@@ -7,6 +7,7 @@ import androidx.navigation.compose.composable
 import com.example.homerent.ui.screen.home.HomeScreen
 import com.example.homerent.ui.screen.login.LoginScreen
 import com.example.homerent.ui.screen.login.SignUpScreen
+import com.example.homerent.ui.screen.pg.PGDetailsScreen
 import com.example.homerent.ui.screen.profile.ProfileScreen
 import com.example.homerent.ui.screen.splash.SplashScreen
 import com.example.homerent.viewmodel.AuthViewModel
@@ -35,11 +36,16 @@ fun NavScreen(
         }
         composable("home")
         {
-            HomeScreen(navController,viewModel)
+            HomeScreen(navController,viewModel,authViewModel)
         }
         composable("profile")
         {
             ProfileScreen(navController,viewModel,authViewModel)
+        }
+
+        composable("PGDetails")
+        {
+            PGDetailsScreen(navController,viewModel)
         }
     }
 }

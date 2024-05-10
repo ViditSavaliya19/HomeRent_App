@@ -1,16 +1,14 @@
 package com.example.homerent.ui.screen.home
 
 import android.annotation.SuppressLint
-import android.util.Log
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
-import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxHeight
-import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
@@ -20,10 +18,12 @@ import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.AccountCircle
+import androidx.compose.material.icons.filled.ArrowForward
 import androidx.compose.material.icons.filled.ExitToApp
 import androidx.compose.material.icons.filled.LocationOn
+import androidx.compose.material.icons.filled.Person
 import androidx.compose.material.icons.filled.Settings
-import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.Divider
 import androidx.compose.material3.DrawerValue
 import androidx.compose.material3.ExperimentalMaterial3Api
@@ -32,7 +32,6 @@ import androidx.compose.material3.ModalDrawerSheet
 import androidx.compose.material3.ModalNavigationDrawer
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
-import androidx.compose.material3.rememberDismissState
 import androidx.compose.material3.rememberDrawerState
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.livedata.observeAsState
@@ -53,6 +52,7 @@ import com.example.homerent.ui.componets.CTabBar
 import com.example.homerent.ui.componets.ListTile
 import com.example.homerent.ui.componets.NetworkIndicator
 import com.example.homerent.ui.theme.Secondary
+import com.example.homerent.viewmodel.AuthViewModel
 import com.example.homerent.viewmodel.PgViewModel
 import kotlinx.coroutines.launch
 
@@ -60,7 +60,11 @@ import kotlinx.coroutines.launch
 @Preview
 @SuppressLint("UnusedMaterial3ScaffoldPaddingParameter")
 @Composable
-fun HomeScreen(navController: NavHostController, viewModel: PgViewModel) {
+fun HomeScreen(
+    navController: NavHostController,
+    viewModel: PgViewModel,
+    authViewModel: AuthViewModel
+) {
 
     val list = viewModel.pgList.observeAsState()
     val cityList = viewModel.cityList.observeAsState()
@@ -68,7 +72,7 @@ fun HomeScreen(navController: NavHostController, viewModel: PgViewModel) {
     val coroutineScope = rememberCoroutineScope()
     ModalNavigationDrawer(
         drawerState = drawerState,
-        drawerContent = { Drawer() }
+        drawerContent = { Drawer(navController, authViewModel) }
     ) {
         Scaffold {
             LazyColumn {
@@ -128,6 +132,11 @@ fun HomeScreen(navController: NavHostController, viewModel: PgViewModel) {
                                 .height(150.dp)
                                 .clip(shape = RoundedCornerShape(10.dp))
                                 .background(color = Secondary.copy(alpha = 0.2f))
+                                .clickable {
+
+                                    viewModel.selectedPG = it1[it]
+                                    navController.navigate("PGDetails")
+                                }
                         ) {
                             Row(
                                 modifier = Modifier
@@ -199,16 +208,30 @@ fun HomeScreen(navController: NavHostController, viewModel: PgViewModel) {
 }
 
 @Composable
-fun Drawer() {
+fun Drawer(navController: NavHostController, authViewModel: AuthViewModel) {
     ModalDrawerSheet {
-        ListTile(title = "LogOut", trailing = Icons.Filled.ExitToApp){
-            Log.e("TAG", "Drawer: LogOut", )
-        }
+
         ListTile(
-            leading = Icons.Filled.Settings,
-            title = "Settings",
+            leading = Icons.Filled.AccountCircle,
+            title = "Profile",
             subtitle = "Test",
-            trailing = Icons.Filled.ExitToApp
+            trailing = Icons.Filled.ArrowForward
         )
+        {
+            navController.navigate("profile")
+        }
+        ListTile(title = "LogOut", trailing = Icons.Filled.ExitToApp) {
+            authViewModel.logout()
+            navController.navigate("login")
+            {
+                popUpTo("home")
+                {
+                    inclusive = true
+                }
+
+            }
+
+        }
+
     }
 }

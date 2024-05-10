@@ -13,6 +13,9 @@ import com.example.homerent.repository.PGRepository.Companion.repo
 import kotlinx.coroutines.launch
 
 class PgViewModel(val context: Context) : ViewModel() {
+
+    var selectedPG : PGModel? = null
+
     private var _pgList = MutableLiveData<List<PGModel>>()
     private var _cityList = MutableLiveData<List<CityModel>>()
     val pgList: MutableLiveData<List<PGModel>>

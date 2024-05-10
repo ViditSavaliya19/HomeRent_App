@@ -27,7 +27,7 @@ fun ListTile(
     leading: ImageVector? = null,
     title: String,
     subtitle: String? = null,
-    trailing: ImageVector,onTap:()->Unit = {}
+    trailing: ImageVector?=null,onTap:()->Unit = {}
 ) {
 
     Row(
@@ -52,7 +52,7 @@ fun ListTile(
             subtitle?.let { Text(it) }
         }
         Spacer(modifier = Modifier.weight(1f))
-        Icon(trailing, contentDescription = null)
+        trailing?.let { Icon(it, contentDescription = null) }
     }
 
 

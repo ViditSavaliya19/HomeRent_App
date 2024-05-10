@@ -28,10 +28,23 @@ fun SplashScreen(navController: NavHostController, authViewModel: AuthViewModel)
         if(authViewModel.user!=null)
         {
             navController.navigate("home")
+            {
+                popUpTo("splash")
+                {
+                    inclusive = true
+                }
+            }
+
         }
         else
         {
             navController.navigate("login")
+            {
+                popUpTo("splash")
+                {
+                    inclusive = true
+                }
+            }
         }
 
     }
