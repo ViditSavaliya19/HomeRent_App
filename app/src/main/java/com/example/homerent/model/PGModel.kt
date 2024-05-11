@@ -38,5 +38,8 @@ data class PGModel(
 	val type: String? = null,
 
 	@field:SerializedName("category")
-	val category: String? = null
+	val category: String? = null,
+
+	@field:SerializedName("contact")
+	val contact: String? = null
 )

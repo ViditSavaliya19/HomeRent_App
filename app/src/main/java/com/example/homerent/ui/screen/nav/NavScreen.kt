@@ -9,6 +9,7 @@ import com.example.homerent.ui.screen.login.LoginScreen
 import com.example.homerent.ui.screen.login.SignUpScreen
 import com.example.homerent.ui.screen.pg.PGDetailsScreen
 import com.example.homerent.ui.screen.profile.ProfileScreen
+import com.example.homerent.ui.screen.search.SearchScreen
 import com.example.homerent.ui.screen.splash.SplashScreen
 import com.example.homerent.viewmodel.AuthViewModel
 import com.example.homerent.viewmodel.PgViewModel
@@ -19,7 +20,7 @@ fun NavScreen(
     viewModel: PgViewModel,
     authViewModel: AuthViewModel
 ) {
-    NavHost(navController = navController, startDestination = "splash")
+    NavHost(navController = navController, startDestination = "Search")
     {
         composable("splash")
         {
@@ -46,6 +47,11 @@ fun NavScreen(
         composable("PGDetails")
         {
             PGDetailsScreen(navController,viewModel)
+        }
+
+        composable("Search")
+        {
+            SearchScreen(navController,viewModel)
         }
     }
 }

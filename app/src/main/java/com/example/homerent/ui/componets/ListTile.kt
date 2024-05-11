@@ -19,15 +19,22 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.vector.ImageVector
+import androidx.compose.ui.text.TextStyle
+import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
 
 
 @Composable
 fun ListTile(
     leading: ImageVector? = null,
     title: String,
+    titleWeight: FontWeight?=FontWeight.Normal,
+    titleSize:Int?=16,
     subtitle: String? = null,
-    trailing: ImageVector?=null,onTap:()->Unit = {}
+    subTitleWeight: FontWeight?=FontWeight.Normal,
+    subTitleSize:Int?=13,
+    trailing: ImageVector?=null, onTap:()->Unit = {}
 ) {
 
     Row(
@@ -48,8 +55,8 @@ fun ListTile(
         }
         Spacer(modifier = Modifier.width(10.dp))
         Column {
-            Text(title)
-            subtitle?.let { Text(it) }
+            Text(title, style = TextStyle(fontWeight = titleWeight, fontSize = titleSize!!.sp))
+            subtitle?.let { Text(it,style = TextStyle(fontWeight = subTitleWeight, fontSize = subTitleSize!!.sp)) }
         }
         Spacer(modifier = Modifier.weight(1f))
         trailing?.let { Icon(it, contentDescription = null) }

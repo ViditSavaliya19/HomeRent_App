@@ -11,13 +11,17 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.shape.CircleShape
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Search
 import androidx.compose.material3.Divider
+import androidx.compose.material3.Icon
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
@@ -28,7 +32,11 @@ import com.example.homerent.ui.theme.Primary
 
 
 @Composable
-fun CTabBar(leadClick:() -> Unit) {
+fun CTabBar(
+    leadClick: () -> Unit = {},
+    trailing: ImageVector? = null,
+    trailingClick: () -> Unit = {}
+) {
 
     Column(horizontalAlignment = Alignment.CenterHorizontally) {
         Box(
@@ -48,10 +56,18 @@ fun CTabBar(leadClick:() -> Unit) {
                     Modifier
                         .height(45.dp)
                         .width(45.dp)
-                        .clip(CircleShape).clickable { leadClick() }
+                        .clip(CircleShape)
+                        .clickable { leadClick() }
                 )
                 Spacer(modifier = Modifier.width(10.dp))
                 Text(text = "PG.com")
+                Spacer(modifier = Modifier.weight(1f))
+                trailing?.let {
+                    Icon(
+                        it,
+                        contentDescription = "",
+                        modifier = Modifier.clickable { trailingClick() })
+                }
 
 
             }

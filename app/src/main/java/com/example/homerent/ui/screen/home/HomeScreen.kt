@@ -23,6 +23,7 @@ import androidx.compose.material.icons.filled.ArrowForward
 import androidx.compose.material.icons.filled.ExitToApp
 import androidx.compose.material.icons.filled.LocationOn
 import androidx.compose.material.icons.filled.Person
+import androidx.compose.material.icons.filled.Search
 import androidx.compose.material.icons.filled.Settings
 import androidx.compose.material3.Divider
 import androidx.compose.material3.DrawerValue
@@ -83,6 +84,8 @@ fun HomeScreen(
                                 if (isClosed) open() else close()
                             }
                         }
+                    }, trailing = Icons.Filled.Search, trailingClick = {
+                        navController.navigate("search")
                     })
                 }
                 item {
