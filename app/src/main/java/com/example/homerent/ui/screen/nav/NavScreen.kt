@@ -10,6 +10,7 @@ import com.example.homerent.ui.screen.login.SignUpScreen
 import com.example.homerent.ui.screen.pg.PGDetailsScreen
 import com.example.homerent.ui.screen.profile.ProfileScreen
 import com.example.homerent.ui.screen.search.SearchScreen
+import com.example.homerent.ui.screen.sort.SortScreen
 import com.example.homerent.ui.screen.splash.SplashScreen
 import com.example.homerent.viewmodel.AuthViewModel
 import com.example.homerent.viewmodel.PgViewModel
@@ -53,5 +54,10 @@ fun NavScreen(
         {
             SearchScreen(navController,viewModel)
         }
+        composable("Sort")
+        {
+            SortScreen(navController,viewModel)
+        }
+
     }
 }

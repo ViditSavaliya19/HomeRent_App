@@ -33,6 +33,7 @@ import com.example.homerent.ui.theme.Primary
 
 @Composable
 fun CTabBar(
+    title:String= "PG.com",
     leadClick: () -> Unit = {},
     trailing: ImageVector? = null,
     trailingClick: () -> Unit = {}
@@ -60,7 +61,7 @@ fun CTabBar(
                         .clickable { leadClick() }
                 )
                 Spacer(modifier = Modifier.width(10.dp))
-                Text(text = "PG.com")
+                Text(text = title)
                 Spacer(modifier = Modifier.weight(1f))
                 trailing?.let {
                     Icon(

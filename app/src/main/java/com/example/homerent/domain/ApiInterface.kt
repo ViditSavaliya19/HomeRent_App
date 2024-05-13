@@ -13,11 +13,15 @@ import retrofit2.http.FormUrlEncoded
 import retrofit2.http.GET
 import retrofit2.http.POST
 import retrofit2.http.Query
+import retrofit2.http.QueryMap
 
 interface ApiInterface {
 
     @GET(PGLIST)
     fun getPGList(): Call<List<PGModel>>
+
+    @GET(PGLIST)
+    fun getSortedPGList(@QueryMap query:HashMap<String,String>): Call<List<PGModel>>
 
     @GET(CITYLIST)
     fun getCityList(): Call<List<CityModel>>
