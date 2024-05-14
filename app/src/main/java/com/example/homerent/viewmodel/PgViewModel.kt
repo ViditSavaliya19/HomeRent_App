@@ -19,6 +19,7 @@ class PgViewModel(val context: Context) : ViewModel() {
     private var _pgList = MutableLiveData<List<PGModel>>()
     private var _sortedPGList = MutableLiveData<List<PGModel>>()
     private var _cityList = MutableLiveData<List<CityModel>>()
+
     val pgList: MutableLiveData<List<PGModel>>
         get() = _pgList
 
@@ -38,8 +39,10 @@ class PgViewModel(val context: Context) : ViewModel() {
                 getPGList()
             }
             launch {
-                var map = HashMap<String,String>()
-                map[""]=""
+                val map = HashMap<String,String>()
+//                map[""]="Gujarat"
+
+                Log.e("TAG", "$map", )
                 getSortedPGList(map)
             }
         }
@@ -57,7 +60,7 @@ class PgViewModel(val context: Context) : ViewModel() {
 
     public suspend fun getSortedPGList(sort:HashMap<String,String>) {
         try {
-            _pgList.value = repo.getSortedPGList(sort)
+            _sortedPGList.value = repo.getSortedPGList(sort)
         } catch (e: Exception) {
             Log.e("TAG", "getPGList: ${e.message}")
             Toast.makeText(context, "${e.message}", Toast.LENGTH_SHORT).show()
@@ -85,6 +88,16 @@ class PgViewModel(val context: Context) : ViewModel() {
         return  false
     }
 
+
+//    private suspend fun getSortedPGList(query:HashMap<String,String>) {
+//        try {
+//            _pgList.value = repo.getSortedPGListAPICall(query)
+//        } catch (e: Exception) {
+//            Log.e("TAG", "getPGList: ${e.message}")
+//            Toast.makeText(context, "${e.message}", Toast.LENGTH_SHORT).show()
+//        }
+//
+//    }
 
 
 }

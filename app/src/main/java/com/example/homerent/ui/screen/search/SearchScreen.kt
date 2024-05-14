@@ -35,6 +35,7 @@ import androidx.compose.material3.TextFieldDefaults
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -51,8 +52,9 @@ import com.example.homerent.R
 import com.example.homerent.ui.componets.NetworkIndicator
 import com.example.homerent.ui.theme.Secondary
 import com.example.homerent.viewmodel.PgViewModel
+import kotlinx.coroutines.launch
+import kotlin.coroutines.coroutineContext
 
-@OptIn(ExperimentalMaterial3Api::class)
 @SuppressLint("UnusedMaterial3ScaffoldPaddingParameter")
 @Composable
 fun SearchScreen(navController: NavHostController, viewModel: PgViewModel) {
@@ -62,11 +64,15 @@ fun SearchScreen(navController: NavHostController, viewModel: PgViewModel) {
     }
     val list = viewModel.sortedPGList.observeAsState()
 
+    val coroutineScope = rememberCoroutineScope()
+
 
     Scaffold(modifier = Modifier.padding(10.dp)) {
         Column {
             Row(verticalAlignment = Alignment.CenterVertically) {
-                IconButton(onClick = { },
+                IconButton(onClick = {
+                    navController.popBackStack()
+                },
                     content = { Icon(Icons.Filled.ArrowBack, contentDescription = "back") })
                 OutlinedTextField(
                     value = search.value,
@@ -76,6 +82,19 @@ fun SearchScreen(navController: NavHostController, viewModel: PgViewModel) {
                     placeholder = { Text("City") },
                     modifier = Modifier.weight(1f),
                     shape = RoundedCornerShape(30.dp),
+                    prefix = {
+                        Icon(
+                            Icons.Filled.Search,
+                            contentDescription = "search",
+                            modifier = Modifier.clickable {
+                                val map = HashMap<String, String>()
+                                map["city"] = search.value
+                                coroutineScope.launch {
+                                    viewModel.getSortedPGList(map)
+                                }
+                            },
+                        )
+                    }
                 )
 
                 OutlinedIconButton(onClick = {

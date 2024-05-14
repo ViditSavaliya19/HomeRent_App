@@ -1,5 +1,6 @@
 package com.example.homerent.ui.screen.sort
 
+import android.util.Log
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
@@ -26,6 +27,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
+import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.TextStyle
@@ -45,16 +47,16 @@ private const val i = 10
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun SortScreen(navController: NavHostController, viewModel: PgViewModel) {
-    var txtCity = remember { mutableStateOf("") }
-    var txtState = remember { mutableStateOf("") }
-    var txtArea = remember { mutableStateOf("") }
-    var txtTypeAll = remember { mutableStateOf(true) }
-    var txtTypePrivate = remember { mutableStateOf(false) }
-    var txtTypeShared = remember { mutableStateOf(false) }
-    var txtCategoryBoth = remember { mutableStateOf(true) }
-    var txtCategoryBoys = remember { mutableStateOf(false) }
-    var txtCategoryGirls = remember { mutableStateOf(false) }
-    var rent = remember { mutableStateOf(1000f..5000f) }
+    val txtCity = rememberSaveable { mutableStateOf("") }
+    val txtState = rememberSaveable { mutableStateOf("") }
+    val txtArea = rememberSaveable { mutableStateOf("") }
+    val txtTypeAll = rememberSaveable { mutableStateOf(true) }
+    val txtTypePrivate = rememberSaveable { mutableStateOf(false) }
+    val txtTypeShared = rememberSaveable { mutableStateOf(false) }
+    val txtCategoryBoth = rememberSaveable { mutableStateOf(true) }
+    val txtCategoryBoys = rememberSaveable { mutableStateOf(false) }
+    val txtCategoryGirls = rememberSaveable { mutableStateOf(false) }
+    val rent = remember { mutableStateOf(1000f..5000f) }
     val coroutineScope = rememberCoroutineScope()
 
 
@@ -174,6 +176,8 @@ fun SortScreen(navController: NavHostController, viewModel: PgViewModel) {
                     query["category"] = if (txtCategoryBoth.value) "" else if (txtCategoryBoys.value) "boys" else "girls"
                     query["min"] = "${rent.value.start.toInt()}"
                     query["max"] = "${rent.value.endInclusive.toInt()}"
+
+                    Log.e("TAG", "SortScreen: $query" )
 
                     coroutineScope.launch {
                         async {

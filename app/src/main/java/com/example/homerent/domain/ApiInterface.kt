@@ -2,6 +2,7 @@ package com.example.homerent.domain
 
 import com.example.homerent.domain.Constant.Companion.CITYLIST
 import com.example.homerent.domain.Constant.Companion.PGLIST
+import com.example.homerent.domain.Constant.Companion.SORT_PG
 import com.example.homerent.domain.Constant.Companion.USERDETAILS
 import com.example.homerent.domain.Constant.Companion.USERINFO
 import com.example.homerent.model.CityModel
@@ -20,7 +21,7 @@ interface ApiInterface {
     @GET(PGLIST)
     fun getPGList(): Call<List<PGModel>>
 
-    @GET(PGLIST)
+    @GET(SORT_PG)
     fun getSortedPGList(@QueryMap query:HashMap<String,String>): Call<List<PGModel>>
 
     @GET(CITYLIST)

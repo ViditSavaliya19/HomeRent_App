@@ -36,6 +36,16 @@ class PGRepository {
         throw Exception("Error : ${response.code()}")
     }
 
+    suspend fun getSortedPGListAPICall(query:HashMap<String,String>): List<PGModel> {
+        val response = apiInterface.getSortedPGList(query).awaitResponse()
+        if (response.isSuccessful && response.body() != null) {
+            Log.e("TAG", "getPGListAPICall: ${response.body()}")
+            return response.body()!!
+        }
+
+        throw Exception("Error : ${response.code()}")
+    }
+
     suspend fun getCityListAPICall(): List<CityModel> {
         val response = apiInterface.getCityList().awaitResponse()
         if (response.isSuccessful && response.body() != null) {

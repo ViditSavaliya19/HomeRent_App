@@ -21,7 +21,7 @@ fun NavScreen(
     viewModel: PgViewModel,
     authViewModel: AuthViewModel
 ) {
-    NavHost(navController = navController, startDestination = "Search")
+    NavHost(navController = navController, startDestination = "splash")
     {
         composable("splash")
         {

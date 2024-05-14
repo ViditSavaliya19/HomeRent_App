@@ -55,6 +55,7 @@ import com.example.homerent.ui.componets.NetworkIndicator
 import com.example.homerent.ui.theme.Secondary
 import com.example.homerent.viewmodel.AuthViewModel
 import com.example.homerent.viewmodel.PgViewModel
+import kotlinx.coroutines.async
 import kotlinx.coroutines.launch
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -96,7 +97,19 @@ fun HomeScreen(
                         cityList.value?.let { it1 ->
                             items(count = it1.size) {
                                 Column(
-                                    Modifier.padding(horizontal = 10.dp),
+                                    Modifier
+                                        .padding(horizontal = 10.dp)
+                                        .clickable {
+                                            val map = HashMap<String, String>()
+                                            map["city"] = it1[it].city!!
+                                            coroutineScope.launch {
+                                                async {
+                                                    viewModel.getSortedPGList(map)
+
+                                                }.await()
+                                                navController.navigate("Search")
+                                            }
+                                        },
                                     horizontalAlignment = Alignment.CenterHorizontally
                                 ) {
                                     Box(
