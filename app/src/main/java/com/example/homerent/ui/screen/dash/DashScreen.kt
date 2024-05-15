@@ -1,16 +1,11 @@
 package com.example.homerent.ui.screen.dash
 
 import android.annotation.SuppressLint
-import androidx.compose.foundation.background
 import androidx.compose.foundation.interaction.MutableInteractionSource
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.AccountCircle
-import androidx.compose.material.icons.filled.Email
-import androidx.compose.material.icons.filled.Favorite
 import androidx.compose.material.icons.filled.Home
-import androidx.compose.material.icons.filled.Search
 import androidx.compose.material.icons.outlined.AccountCircle
 import androidx.compose.material.icons.outlined.Email
 import androidx.compose.material.icons.outlined.Favorite
@@ -32,6 +27,7 @@ import androidx.compose.ui.unit.dp
 import androidx.navigation.NavHostController
 import com.example.homerent.ui.screen.home.HomeScreen
 import com.example.homerent.ui.screen.search.SearchScreen
+import com.example.homerent.ui.screen.settings.SettingsScreen
 import com.example.homerent.ui.theme.Primary
 import com.example.homerent.viewmodel.AuthViewModel
 import com.example.homerent.viewmodel.PgViewModel
@@ -45,9 +41,10 @@ fun DashScreen(
     var screenList = listOf("Home", "Search", "ShortList", "Chat", "Profile")
     var selectedScreen = remember { mutableStateOf(screenList[0]) }
 
-
     Scaffold(bottomBar = {
-        NavigationBar {
+        NavigationBar(
+            containerColor = Color.White,
+        ) {
             screenList.forEach {
                 NavigationBarItem(
                     selected = it == selectedScreen.value,
@@ -65,7 +62,6 @@ fun DashScreen(
                         indicatorColor = Color.White
                     ),
 
-                    modifier = Modifier.background(color = Color.White)
                 )
             }
         }
@@ -76,7 +72,7 @@ fun DashScreen(
                 "Search" -> SearchScreen(navController, viewModel)
                 "ShortList" -> Text(text = "ShortList")
                 "Chat" -> Text(text = "Chat")
-                "Profile" -> Text(text = "Profile")
+                "Profile" -> SettingsScreen(navController,authViewModel)
             }
         }
 
