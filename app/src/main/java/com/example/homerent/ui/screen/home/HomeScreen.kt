@@ -3,6 +3,7 @@ package com.example.homerent.ui.screen.home
 import android.annotation.SuppressLint
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
+import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -147,7 +148,8 @@ fun HomeScreen(
                                 .fillMaxWidth()
                                 .height(150.dp)
                                 .clip(shape = RoundedCornerShape(10.dp))
-                                .background(color = Secondary.copy(alpha = 0.2f))
+                                .border(width = 1.dp, color = Secondary, shape = RoundedCornerShape(10.dp))
+//                                .background(color = Secondary.copy(alpha = 0.2f))
                                 .clickable {
 
                                     viewModel.selectedPG = it1[it]

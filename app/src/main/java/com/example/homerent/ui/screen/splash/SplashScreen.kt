@@ -27,7 +27,7 @@ fun SplashScreen(navController: NavHostController, authViewModel: AuthViewModel)
         delay(3000)
         if(authViewModel.user!=null)
         {
-            navController.navigate("home")
+            navController.navigate("dash")
             {
                 popUpTo("splash")
                 {
