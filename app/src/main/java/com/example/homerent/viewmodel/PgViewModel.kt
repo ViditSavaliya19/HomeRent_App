@@ -40,8 +40,6 @@ class PgViewModel(val context: Context) : ViewModel() {
             }
             launch {
                 val map = HashMap<String,String>()
-//                map[""]="Gujarat"
-
                 Log.e("TAG", "$map", )
                 getSortedPGList(map)
             }

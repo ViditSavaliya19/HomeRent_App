@@ -16,8 +16,8 @@ import kotlinx.coroutines.launch
 class AuthViewModel(val context: Context) : ViewModel() {
 
     var user: FirebaseUser? = null
-    private var _userDataList = MutableLiveData<List<UserModel>>()
-    val userDataList: MutableLiveData<List<UserModel>>
+    private var _userDataList = MutableLiveData<List<UserModel>?>()
+    val userDataList: MutableLiveData<List<UserModel>?>
         get() = _userDataList
 
     init {
@@ -51,7 +51,12 @@ class AuthViewModel(val context: Context) : ViewModel() {
 
     private suspend fun getUserInfo() {
         try {
-            _userDataList.value = PGRepository.repo.getUserInfoAPICall(user!!.uid)
+            var data = PGRepository.repo.getUserInfoAPICall(user!!.uid)
+            if(data.isNotEmpty())
+            {
+                _userDataList.value = data
+            }
+            Log.e("TAG", "getUserInfo: ${_userDataList}", )
         } catch (e: Exception) {
             Log.e("TAG", "UserDetails: ${e.message}")
             Toast.makeText(context, "${e.message}", Toast.LENGTH_SHORT).show()

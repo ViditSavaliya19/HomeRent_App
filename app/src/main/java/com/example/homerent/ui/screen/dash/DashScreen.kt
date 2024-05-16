@@ -25,6 +25,8 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavHostController
+import com.example.homerent.ui.screen.chat.ChatBotScreen
+import com.example.homerent.ui.screen.favorite.FavoriteScreen
 import com.example.homerent.ui.screen.home.HomeScreen
 import com.example.homerent.ui.screen.search.SearchScreen
 import com.example.homerent.ui.screen.settings.SettingsScreen
@@ -70,8 +72,8 @@ fun DashScreen(
             when (selectedScreen.value) {
                 "Home" -> HomeScreen(navController, viewModel, authViewModel)
                 "Search" -> SearchScreen(navController, viewModel)
-                "ShortList" -> Text(text = "ShortList")
-                "Chat" -> Text(text = "Chat")
+                "ShortList" -> FavoriteScreen()
+                "Chat" -> ChatBotScreen()
                 "Profile" -> SettingsScreen(navController,authViewModel)
             }
         }

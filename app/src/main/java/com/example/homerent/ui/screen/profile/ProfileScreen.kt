@@ -222,7 +222,7 @@ fun ProfileScreen(
                     }.await()
 
                     if (res) {
-                        navController.navigate("home")
+                        navController.navigate("dash")
                         {
                             popUpTo("profile") {
                                 inclusive = true
